@@ -1,0 +1,233 @@
+:root {
+  --bg-void: #060814;
+  --bg-panel: #0d1128;
+  --bg-panel-raised: #131933;
+  --ink: #ece9f7;
+  --ink-dim: #8b8ba8;
+  --line: #24284a;
+  --accent: #8f7de0;
+
+  --red-dwarf: #c1440e;
+  --red-dwarf-glow: #ff9a5c;
+  --yellow-dwarf: #f4c542;
+  --yellow-dwarf-glow: #fff4c2;
+  --blue-giant: #5fc9f8;
+  --blue-giant-glow: #d9f4ff;
+  --red-giant: #e8613c;
+  --red-giant-glow: #ffb08a;
+
+  --star-color: var(--yellow-dwarf);
+  --star-glow: var(--yellow-dwarf-glow);
+  --star-size: 120px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-void);
+  color: var(--ink);
+  font-family: 'Space Mono', monospace;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* faint starfield */
+.sky {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    radial-gradient(1px 1px at 12% 22%, #fff 0%, transparent 60%),
+    radial-gradient(1px 1px at 78% 12%, #fff 0%, transparent 60%),
+    radial-gradient(1px 1px at 45% 68%, #fff 0%, transparent 60%),
+    radial-gradient(1.5px 1.5px at 88% 44%, #fff 0%, transparent 60%),
+    radial-gradient(1px 1px at 25% 82%, #fff 0%, transparent 60%),
+    radial-gradient(1px 1px at 65% 90%, #fff 0%, transparent 60%),
+    radial-gradient(1.5px 1.5px at 8% 55%, #fff 0%, transparent 60%),
+    radial-gradient(1px 1px at 95% 75%, #fff 0%, transparent 60%);
+  background-repeat: no-repeat;
+  opacity: 0.5;
+}
+
+.masthead {
+  position: relative;
+  z-index: 1;
+  border-bottom: 1px solid var(--line);
+  padding: 22px 32px;
+}
+.masthead-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.wordmark {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: 0.03em;
+}
+.tagline {
+  font-size: 0.7rem;
+  color: var(--ink-dim);
+}
+
+.stage {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 56px 32px 40px;
+}
+
+.stage-copy h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: clamp(2.4rem, 6vw, 3.4rem);
+  line-height: 1.05;
+  margin: 0 0 14px;
+}
+
+.subhead {
+  color: var(--ink-dim);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  max-width: 46ch;
+  margin: 0 0 48px;
+}
+
+.viewport {
+  position: relative;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: linear-gradient(180deg, var(--bg-panel), var(--bg-void));
+}
+
+.orbit-ring {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border: 1px dashed var(--line);
+  border-radius: 50%;
+}
+
+.star {
+  width: var(--star-size);
+  height: var(--star-size);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 32%, var(--star-glow), var(--star-color) 60%, var(--star-color) 100%);
+  box-shadow:
+    0 0 40px 6px color-mix(in srgb, var(--star-color) 55%, transparent),
+    0 0 90px 30px color-mix(in srgb, var(--star-color) 25%, transparent);
+  transition:
+    width 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.7s ease,
+    box-shadow 0.7s ease;
+}
+
+.readout {
+  position: absolute;
+  bottom: 16px;
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--ink-dim);
+  margin: 0;
+  transition: color 0.5s ease;
+}
+
+.selector {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.star-btn {
+  --swatch: #888;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 14px 12px;
+  cursor: pointer;
+  font-family: 'Space Mono', monospace;
+  color: var(--ink);
+  text-align: left;
+  transition: border-color 0.25s ease, background 0.25s ease, transform 0.15s ease;
+}
+
+.star-btn:hover {
+  border-color: var(--swatch);
+  background: var(--bg-panel-raised);
+}
+
+.star-btn:active {
+  transform: translateY(1px);
+}
+
+.star-btn.is-active {
+  border-color: var(--swatch);
+  background: var(--bg-panel-raised);
+  box-shadow: 0 0 0 1px var(--swatch) inset;
+}
+
+.btn-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--swatch);
+  box-shadow: 0 0 10px 2px color-mix(in srgb, var(--swatch) 70%, transparent);
+}
+
+.btn-label {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.btn-meta {
+  font-size: 0.65rem;
+  color: var(--ink-dim);
+  line-height: 1.4;
+}
+
+.star-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.foot {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 24px 32px 40px;
+  color: var(--ink-dim);
+  font-size: 0.68rem;
+}
+
+@media (max-width: 640px) {
+  .selector {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .viewport {
+    height: 260px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .star {
+    transition: none;
+  }
+}
